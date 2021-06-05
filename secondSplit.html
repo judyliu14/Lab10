@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab 8 - E2E Testing</title>
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="./styles/style.css">
+
+  <!-- Favicon -->
+  <link rel="icon" href="./styles/favicon.ico">
+</head>
+
+<body>
+  <header>
+    <h1>Journal Entries</h1>
+    <img src="./styles/settings.svg" alt="settings" width=40 height=40>
+  </header>
+
+  <main class="double-column"></main>
+
+  <entry-page></entry-page>
+
+  <!-- A/B Testing Script -->
+  <script src="//cdn.split.io/sdk/split-10.15.7.min.js"></script>
+
+  <!-- Custom Script -->
+  <script type="text/javascript">
+    // Instantiate the SDK. CDN will expose splitio globally 
+    var factory = splitio({ 
+      core: {
+        authorizationKey: 'm680adr50h6i1s7nsbnma7hvsigotrg7phhe',
+        key: 'id' + Math.floor((1 + Math.random()) * 0x10000).toString(16),
+      }
+    });
+    // And get the client instance you'll use
+    var client = factory.client();
+    client.on(client.Event.SDK_READY, function() {
+      var treatment = client.getTreatment('background_color');
+      if (treatment == "on") {
+          // insert code here to show on treatment
+          document.getElementsByTagName('body')[0].style.backgroundColor = '#EFECCA';
+      } else if (treatment == "off") {
+          // insert code here to show off treatment
+          document.getElementsByTagName('body')[0].style.backgroundColor = '#31d5d8';
+      } else {
+          // insert your control treatment code here
+          document.getElementsByTagName('body')[0].style.backgroundColor = '#EFECCA';
+      }
+      client.destroy().then(function() {
+          console.log("destroyed");
+          client = null;
+      });
+    });
+    
+  </script>
+
+  <!-- journal-entry web component -->
+  <script src="./components/journal-entry.js" type="module"></script>
+  <script src="./components/entry-page.js" type="module"></script>
+
+  <!-- Router Script -->
+  <script src="./scripts/router.js" type="module"></script>
+
+  <!-- Main Script -->
+  <script src="./scripts/script.js" type="module"></script>
+</body>
+
+</html>

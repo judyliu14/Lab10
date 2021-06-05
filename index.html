@@ -24,6 +24,40 @@
 
   <entry-page></entry-page>
 
+  <!-- A/B Testing Script -->
+  <script src="//cdn.split.io/sdk/split-10.15.7.min.js"></script>
+
+  <!-- Custom Script -->
+  <script type="text/javascript">
+    // Instantiate the SDK. CDN will expose splitio globally 
+    var factory = splitio({ 
+      core: {
+        authorizationKey: 'm680adr50h6i1s7nsbnma7hvsigotrg7phhe',
+        key: 'id' + Math.floor((1 + Math.random()) * 0x10000).toString(16),
+      }
+    });
+    // And get the client instance you'll use
+    var client = factory.client();
+    client.on(client.Event.SDK_READY, function() {
+      var treatment = client.getTreatment('double_column');
+      if (treatment == "on") {
+          // insert code here to show on treatment
+          document.getElementsByTagName('main')[0].className = 'double-column';
+      } else if (treatment == "off") {
+          // insert code here to show off treatment
+          document.getElementsByTagName('main')[0].className = 'single-column';
+      } else {
+          // insert your control treatment code here
+          document.getElementsByTagName('main')[0].className = 'double-column';
+      }
+      client.destroy().then(function() {
+          console.log("destroyed");
+          client = null;
+      });
+    });
+    
+  </script>
+
   <!-- journal-entry web component -->
   <script src="./components/journal-entry.js" type="module"></script>
   <script src="./components/entry-page.js" type="module"></script>
