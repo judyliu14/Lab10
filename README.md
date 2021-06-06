@@ -9,3 +9,6 @@ Canny.io page: https://cse110-lab10-judyliu14.canny.io/
 - secondSplit.html page:  https://judyliu14.github.io/Lab10/secondSplit.html
     - for the secondSplit.html page, the background color of the page is changed.
     - on (50%) is the original green background color, off (50%) is a blue background color.
+
+## Part 3
+![Google Events](./part3.png)
